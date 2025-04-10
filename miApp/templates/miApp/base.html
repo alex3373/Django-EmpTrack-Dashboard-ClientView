@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>JahFix Manager</title>
+    <link rel="stylesheet" href="{% static 'miApp/css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">JahFix Manager</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="activo">Inicio</a></li>
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Contáctanos</a></li>
+                <li><a href="#">Condiciones</a></li>
+                <li><a href="#" class="btn-seguimiento">Seguimiento de Reparación</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button>Iniciar Sesión</button>
+            <button class="black">Registrarse</button>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        &copy; 2023 - Todos los derechos reservados.
+    </footer>
+</body>
+</html>
