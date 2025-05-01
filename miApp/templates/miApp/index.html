@@ -1,42 +1,173 @@
 {% extends 'miApp/base.html' %}
 
 {% block content %}
-<section class="hero">
-    <div class="text">
-        <h1>Reparaciones rápidas y confiables</h1>
-        <p>Para tu dispositivo móvil</p>
-        <button class="green">Cotiza tu reparación</button>
+
+
+<section class="carrusel-wrapper">
+    <button class="carrusel-btn prev" onclick="moverCarrusel(-1)">❮</button>
+
+    <div class="carrusel-container">
+        <div class="carrusel">
+            <div class="carrusel-item active">
+                <div class="text">
+                    <h1>Reparaciones para todo tipo de dispositivo</h1>
+                    <p>Si tu dispositivo es móvil, puedes cotizar aquí</p>
+                    <a href="{% url 'cotizacion' %}" class="btn-cotizacion">Cotiza con diágnostico gratis</a>
+                </div>
+                <div class="hero-img">
+                    <img src="/static/img/repa.png" alt="Imagen de reparación">
+                </div>
+            </div>
+            <!-- Aquí podrías agregar más slides -->
+             
+        </div>
     </div>
-  
+
+    <button class="carrusel-btn next" onclick="moverCarrusel(1)">❯</button>
 </section>
 
-<section class="caracteristicas">
-    <div>
-        <h3>🔧 Profesionales de confianza</h3>
-        <p>Confía en nuestro equipo de técnicos profesionales...</p>
-    </div>
-    <div>
-        <h3>🔁 Respuesta rápida</h3>
-        <p>Nuestro objetivo es devolver tu dispositivo lo más rápido posible.</p>
-    </div>
-    <div>
-        <h3>🩺 Diagnóstico gratis</h3>
-        <p>Te ofrecemos un diagnóstico gratuito.</p>
-    </div>
-</section>
+
 
 <h2 class="titulo-reparaciones">Todo tipo de reparaciones</h2>
 
 <section class="reparaciones">
-    <div><h4>📱 iPhone</h4><p>Pantallas agrietadas, daños por agua, batería y más.</p></div>
-    <div><h4>📲 iPad</h4><p>Pantallas rotas, batería y software.</p></div>
-    <div><h4>🤖 Android</h4><p>Reemplazos de placas base y más.</p></div>
-    <div><h4>💻 Tablet</h4><p>Soluciones rápidas para tablets.</p></div>
+    <div class="card"><img src="/static/img/icono-iphone.png" alt="iPhone"><p>Pantallas agrietadas, daños por agua, batería y más.</p></div>
+    <div class="card"><img src="/static/img/icono-ipad.png" alt="iPad"><p>Pantallas rotas, batería y software.</p></div>
+    <div class="card"><img src="/static/img/icono-android.png" alt="Android"><p>Reemplazos de placas base y más.</p></div>
+    <div class="card"><img src="/static/img/icono-tablet.png" alt="Tablet"><p>Soluciones rápidas para tablets.</p></div>
 </section>
 
-<section class="call-to-action">
+<section class="hero1">
     <h3>¡Repara tu dispositivo móvil hoy mismo!</h3>
     <p>Reparamos el mismo día en la mayoría de los casos.</p>
-    <button class="green">Cotiza tu reparación</button>
+    <a href="{% url 'cotizacion' %}" class="green">Cotiza tu reparación</a>
 </section>
+
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    let indice = 0;
+    function moverCarrusel(direccion) {
+        const items = document.querySelectorAll('.carrusel-item');
+        items[indice].classList.remove('active');
+        indice = (indice + direccion + items.length) % items.length;
+        items[indice].classList.add('active');
+    }
+</script>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+    .carrusel-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 1500px;
+        margin: 60px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .carrusel-container {
+        overflow: hidden;
+        background-color: #f7f7f7;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 90%;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .carrusel {
+        display: flex;
+        width: 100%;
+        transition: transform 0.5s ease;
+    }
+
+    .carrusel-item {
+        display: none;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .carrusel-item.active {
+        display: flex;
+    }
+
+    .text {
+        flex: 1;
+    }
+
+    .text h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .text p {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .btn-cotizacion {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        background-color: #3b82f6;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-cotizacion:hover {
+        background-color: #2563eb;
+    }
+
+    .hero-img {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-img img {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .carrusel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.9);
+        border: none;
+        font-size: 3rem;
+        padding: 15px;
+        cursor: pointer;
+        z-index: 20;
+        color: #333;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .carrusel-btn.prev {
+        left: -60px; /* Flecha más afuera */
+    }
+
+    .carrusel-btn.next {
+        right: -60px; /* Flecha más afuera */
+    }
+</style>
+{% endblock %}
+
 {% endblock %}

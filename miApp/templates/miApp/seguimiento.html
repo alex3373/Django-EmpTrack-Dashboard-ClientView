@@ -1,0 +1,63 @@
+{% extends 'miApp/base.html' %}
+{% block content %}
+<section class="hero" style="…">
+  <!-- formulario -->
+  <form method="GET">
+    <input name="id_reparacion" value="{{ id_reparacion }}" …>
+    <button>Consultar</button>
+  </form>
+</section>
+
+{% if reparacion %}
+  <section class="hero1" style="text-align:center;">
+    <h3>Estado de tu reparación (ID: {{ reparacion.id }})</h3>
+    <p><em>estado actual = “{{ reparacion.estado }}”</em></p>
+
+    {% for etapa in etapas %}
+      <p>
+        <strong>{{ etapa.etapa.nombre_etapa }}:</strong>
+        {% if etapa.fecha_fin %}✅ Completado{% else %}⏳ En progreso{% endif %}
+      </p>
+    {% empty %}
+      <p>No hay etapas registradas aún.</p>
+    {% endfor %}
+  </section>
+
+  {% if reparacion.estado == "Pendiente Aprobacion" %}
+
+
+
+  <section class="hero" style="text-align: center;">
+    <p><strong>¡Tu reparación está pendiente de aprobación!</strong></p>
+    <button id="checkout-button" class="button approve">Aprobar y Pagar</button>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");  // PASAR la PUBLIC_KEY desde views.py
+
+  document.getElementById("checkout-button").addEventListener("click", function () {
+    fetch("/create-checkout-session/?id_reparacion={{ reparacion.id }}")
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
+      })
+      .then(function (result) {
+        if (result.error) {
+          alert(result.error.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+      });
+  });
+</script>
+    <a href="?id_reparacion={{ reparacion.id }}&accion=rechazar" > <button>Rechazar</button>
+  </section>
+{% endif %}
+
+
+{% elif id_reparacion %}
+  <p style="color:red; text-align:center;">No se encontró una reparación con ese ID.</p>
+{% endif %}
+{% endblock %}

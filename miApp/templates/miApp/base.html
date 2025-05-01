@@ -3,33 +3,43 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>JahFix Manager</title>
+    <title>EmpTrack Manager</title>
     <link rel="stylesheet" href="{% static 'miApp/css/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header class="navbar">
-        <div class="logo">JahFix Manager</div>
+        <div class="logo">
+    <img src="{% static 'miApp/img/logo.png' %}" alt="Logo EmpTrack" class="logo-icon">
+    <span>EmpTrack Manager</span>
+</div>
         <nav>
             <ul>
-                <li><a href="#" class="activo">Inicio</a></li>
-                <li><a href="#">Sobre nosotros</a></li>
-                <li><a href="#">Contáctanos</a></li>
-                <li><a href="#">Condiciones</a></li>
-                <li><a href="#" class="btn-seguimiento">Seguimiento de Reparación</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <button>Iniciar Sesión</button>
-            <button class="black">Registrarse</button>
-        </div>
+                <li><a href="{% url 'index' %}" class="activo">Inicio</a></li>
+                <li><a href="{% url 'sobre_nosotros' %}">Sobre nosotros</a></li>
+                <li><a href="{% url 'contactanos' %}">Contáctanos</a></li>
+                <li><a href="{% url 'condiciones' %}">Condiciones</a></li>
+
+                </ul>
+                </nav>
+                
+                <a href="{% url 'seguimiento' %}" class="btn-seguimiento">Seguimiento de Reparación</a>
+    
+        
     </header>
     <main>
         {% block content %}
         {% endblock %}
     </main>
     <footer>
-        &copy; 2023 - Todos los derechos reservados.
+        &copy; 2025 - Todos los derechos reservados.
+        {% if request.resolver_match.url_name not in "login registro" %}
+    <div class="contenedor-botones">
+        <a href="{% url 'login' %}" class="btn-flotante">Login Empleado</a>
+    </div>
+        {% endif %}
     </footer>
+    
+    
 </body>
 </html>
